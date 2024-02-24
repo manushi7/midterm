@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Task Manager</title>
+
+    <style>
+
+        body { font-family: Arial, sans-serif; }
+
+        .container { max-width: 600px; margin: auto; padding: 20px; }
+
+        form { margin-bottom: 20px; }
+
+        input, button { margin-top: 10px; }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Task Manager</h1>
+ 
+        <section>
+
+            <h2>Create Task</h2>
+
+            <form id="taskForm">
+
+                <input type="text" id="taskTitle" placeholder="Title" required>
+
+                <input type="text" id="taskDescription" placeholder="Description" required>
+
+                <input type="text" id="taskAssignedTo" placeholder="Assigned To" required>
+
+                <button type="submit">Create Task</button>
+
+                <button type="btn">By Status</button>
+
+            </form>
+
+        </section>
+ 
+        <section>
+
+            <h2>Tasks</h2>
+
+            <div id="tasks"></div>
+
+        </section>
+ 
+        <section>
+
+            <h2>Create User</h2>
+
+            <form id="userForm">
+
+                <input type="text" id="userName" placeholder="Name" required>
+
+                <input type="email" id="userEmail" placeholder="Email" required>
+
+                <input type="text" id="userUsername" placeholder="Username" required>
+
+                <button type="submit">Create User</button>
+
+            </form>
+
+        </section>
+ 
+        <section>
+
+            <h2>Users</h2>
+
+            <div id="users"></div>
+
+        </section>
+
+    </div>
+ 
+    <script>
+
+        document.getElementById('taskForm').addEventListener('submit', async function(e) {
+
+            e.preventDefault();
+
+            const title = document.getElementById('taskTitle').value;
+
+            const description = document.getElementById('taskDescription').value;
+
+            const assignedTo = document.getElementById('taskAssignedTo').value;
+ 
+            await fetch('/tasks', {
+
+                method: 'POST',
+
+                headers: { 'Content-Type': 'application/json' },
+
+                body: JSON.stringify({ title, description, assignedTo })
+
+            });
+ 
+            await fetchTasks();
+
+        });
+ 
+        async function fetchTasks() {
+
+            const response = await fetch('/tasks');
+
+            const tasks = await response.json();
+
+            const tasksContainer = document.getElementById('tasks');
+
+            tasksContainer.innerHTML = ''; // Clear current tasks
+
+            tasks.forEach(task => {
+
+                const taskElement = document.createElement('div');
+
+                taskElement.innerHTML = `${task.title} - ${task.description} - Assigned to: ${task.assignedTo} <a href = "/tasks/${task._id}"> view </a>`;
+
+                tasksContainer.appendChild(taskElement);
+
+            });
+
+        }
+ 
+        document.getElementById('userForm').addEventListener('submit', async function(e) {
+
+            e.preventDefault();
+
+            const name = document.getElementById('userName').value;
+
+            const email = document.getElementById('userEmail').value;
+
+            const username = document.getElementById('userUsername').value;
+ 
+            await fetch('/users', {
+
+                method: 'POST',
+
+                headers: { 'Content-Type': 'application/json' },
+
+                body: JSON.stringify({ name, email, username })
+
+            });
+ 
+            await fetchUsers();
+
+        });
+ 
+        async function fetchUsers() {
+
+            const response = await fetch('/users');
+
+            const users = await response.json();
+
+            const usersContainer = document.getElementById('users');
+
+            usersContainer.innerHTML = ''; // Clear current users
+
+            users.forEach(user => {
+
+                const userElement = document.createElement('div');
+
+                userElement.innerHTML = `${user.name} (${user.username}) - ${user.email} <a href = "/users/${user.username}"> view </a>`;
+
+                usersContainer.appendChild(userElement);
+
+            });
+
+        }
+ 
+        // Initial fetch of tasks and users
+
+        fetchTasks();
+
+        fetchUsers();
+
+    </script>
+
+</body>
+
+</html>

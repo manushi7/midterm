@@ -1,0 +1,51 @@
+[
+
+  {
+
+    "title": "Complete Project Proposal",
+
+    "description": "Prepare and submit the project proposal by end of the week",
+
+    "status": "Incomplete",
+
+    "assignedTo": "John Doe"
+
+  },
+
+  {
+
+    "title": "Review Code Changes",
+
+    "description": "Review the recent code changes and provide feedback",
+
+    "status": "Pending Review",
+
+    "assignedTo": "Jane Smith"
+
+  },
+
+  {
+
+    "title": "Update Documentation",
+
+    "description": "Ensure the project documentation is up to date with the latest features",
+
+    "status": "In Progress",
+
+    "assignedTo": "Emily Adams"
+
+  },
+
+  {
+
+    "title": "Client Meeting",
+
+    "description": "Discuss project progress and gather feedback from the client",
+
+    "status": "Scheduled",
+
+    "assignedTo": "Michael Jordan"
+
+  }
+
+]
